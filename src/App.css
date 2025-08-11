@@ -158,46 +158,54 @@ body {
 .form-container {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 24px;
-  max-width: 800px;
-  margin: 0 auto;
+  gap: 1.5rem;
+  grid-template-areas: 
+    "url-input"
+    "niche-select"
+    "insights"
+    "generate";
 }
 
 @media (min-width: 768px) {
   .form-container {
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-areas: 
-      "url-input niche-select"
-      "insights insights"
+      "url-input url-input"
+      "niche-select insights"
       "generate generate";
-    align-items: start;
-  }
-  
-  .url-group {
-    grid-area: url-input;
-  }
-  
-  .niche-group {
-    grid-area: niche-select;
-  }
-  
-  .insights-group {
-    grid-area: insights;
-  }
-  
-  .generate-group {
-    grid-area: generate;
   }
 }
 
 @media (min-width: 1024px) {
   .form-container {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr 1fr;
     grid-template-areas: 
-      "url-input url-input niche-select"
-      "insights insights insights"
-      "generate generate generate";
+      "url-input niche-select generate"
+      "insights insights insights";
   }
+}
+
+.url-group {
+  grid-area: url-input;
+}
+
+.niche-group {
+  grid-area: niche-select;
+}
+
+.insights-group {
+  grid-area: insights;
+}
+
+.generate-group {
+  grid-area: generate;
+  display: flex;
+  align-items: end;
+}
+
+.generate-group .generate-button {
+  width: 100%;
+  margin-top: auto;
 }
 
 .input-group {
