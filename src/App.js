@@ -207,77 +207,81 @@ function App() {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <div className="input-card">
-            <div className="input-group">
-              <label htmlFor="url-input" className="input-label">
-                <Link size={18} />
-                Article URL
-              </label>
-              <input
-                id="url-input"
-                type="url"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                placeholder="Paste your article URL here..."
-                className="url-input"
-                disabled={isProcessing}
-              />
-            </div>
+            <div className="form-container">
+              <div className="input-group url-group">
+                <label htmlFor="url-input" className="input-label">
+                  <Link size={18} />
+                  Article URL
+                </label>
+                <input
+                  id="url-input"
+                  type="url"
+                  value={url}
+                  onChange={(e) => setUrl(e.target.value)}
+                  placeholder="Paste your article URL here..."
+                  className="url-input"
+                  disabled={isProcessing}
+                />
+              </div>
 
-            <div className="input-group">
-              <label htmlFor="niche-select" className="input-label">
-                <Target size={18} />
-                Content Niche
-              </label>
-              <select
-                id="niche-select"
-                value={niche}
-                onChange={(e) => setNiche(e.target.value)}
-                className="niche-select"
-                disabled={isProcessing}
-                size="1"
-              >
-                <option value="">Select your niche...</option>
-                {niches.map(n => (
-                  <option key={n} value={n}>{n}</option>
-                ))}
-              </select>
-            </div>
+              <div className="input-group niche-group">
+                <label htmlFor="niche-select" className="input-label">
+                  <Target size={18} />
+                  Content Niche
+                </label>
+                <select
+                  id="niche-select"
+                  value={niche}
+                  onChange={(e) => setNiche(e.target.value)}
+                  className="niche-select"
+                  disabled={isProcessing}
+                  size="1"
+                >
+                  <option value="">Select your niche...</option>
+                  {niches.map(n => (
+                    <option key={n} value={n}>{n}</option>
+                  ))}
+                </select>
+              </div>
 
-            <div className="input-group">
-              <label htmlFor="insights-input" className="input-label">
-                <TrendingUp size={18} />
-                Additional Market Insights (Optional)
-              </label>
-              <textarea
-                id="insights-input"
-                value={additionalInsights}
-                onChange={(e) => setAdditionalInsights(e.target.value)}
-                placeholder="Any specific trends, audience insights, or strategic notes..."
-                className="insights-input"
-                rows={3}
-                disabled={isProcessing}
-              />
-            </div>
+              <div className="input-group insights-group">
+                <label htmlFor="insights-input" className="input-label">
+                  <TrendingUp size={18} />
+                  Additional Market Insights (Optional)
+                </label>
+                <textarea
+                  id="insights-input"
+                  value={additionalInsights}
+                  onChange={(e) => setAdditionalInsights(e.target.value)}
+                  placeholder="Any specific trends, audience insights, or strategic notes..."
+                  className="insights-input"
+                  rows={3}
+                  disabled={isProcessing}
+                />
+              </div>
 
-            <motion.button
-              className="generate-button"
-              onClick={handleGenerate}
-              disabled={isProcessing || !url.trim()}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              {isProcessing ? (
-                <>
-                  <Loader className="spinning" size={20} />
-                  Generating...
-                </>
-              ) : (
-                <>
-                  <Zap size={20} />
-                  Generate Pinterest Content
-                </>
-              )}
-            </motion.button>
+              <div className="generate-group">
+                <motion.button
+                  className="generate-button"
+                  onClick={handleGenerate}
+                  disabled={isProcessing || !url.trim()}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  {isProcessing ? (
+                    <>
+                      <Loader className="spinning" size={20} />
+                      Generating...
+                    </>
+                  ) : (
+                    <>
+                      <Zap size={20} />
+                      Generate Pinterest Content
+                    </>
+                  )}
+                </motion.button>
+              </div>
+            </div>
 
             {error && (
               <motion.div 
