@@ -276,7 +276,7 @@ function App() {
                   ) : (
                     <>
                       <Zap size={20} />
-                      Generate Pinterest Content
+                      Generate
                     </>
                   )}
                 </motion.button>
