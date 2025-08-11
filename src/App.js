@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Sparkles, 
@@ -45,7 +45,8 @@ function App() {
     'DIY & Crafts',
     'Technology',
     'Education & Learning',
-    'Fitness & Exercise'
+    'Fitness & Exercise',
+    'Animals & Pets'
   ];
 
   const processingMessages = [
@@ -68,7 +69,7 @@ function App() {
     document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
   }, [darkMode]);
 
-  const handleGenerate = async () => {
+  const handleGenerate = useCallback(async () => {
     if (!url.trim()) {
       setError('Please enter a valid URL');
       return;
@@ -116,7 +117,7 @@ function App() {
       setIsProcessing(false);
       setProcessingStep('');
     }
-  };
+  }, [url, niche, additionalInsights]);
 
   const copyToClipboard = async (text, itemId) => {
     try {
@@ -142,7 +143,13 @@ function App() {
     copyToClipboard(allContent, 'all-content');
   };
 
-  const handleKeyboardShortcut = (e) => {
+  const handleKeyboardShortcut = useCallback(() => {
+    if (url && !isProcessing) {
+      handleGenerate();
+    }
+  }, [url, isProcessing, handleGenerate]);
+
+  const handleKeydown = useCallback((e) => {
     if (e.ctrlKey && results) {
       const num = parseInt(e.key);
       if (num >= 1 && num <= results.pinTitles.length) {
@@ -150,12 +157,21 @@ function App() {
         copyToClipboard(results.pinTitles[num - 1].title, `title-${num - 1}`);
       }
     }
-  };
+  }, [results]);
 
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyboardShortcut);
-    return () => document.removeEventListener('keydown', handleKeyboardShortcut);
-  }, [results]);
+    const handleKeyPress = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        handleKeyboardShortcut();
+      } else {
+        handleKeydown(e);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, [handleKeyboardShortcut, handleKeydown]);
 
   return (
     <div className={`app ${darkMode ? 'dark' : 'light'}`}>
@@ -218,6 +234,7 @@ function App() {
                 onChange={(e) => setNiche(e.target.value)}
                 className="niche-select"
                 disabled={isProcessing}
+                size="1"
               >
                 <option value="">Select your niche...</option>
                 {niches.map(n => (
